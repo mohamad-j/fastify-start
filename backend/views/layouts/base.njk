@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title | default('My Fastify App') }}</title>
+    <link rel="stylesheet" href="/css/main.css">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <div class="container">
+        {% include "partials/header.njk" %}
+        
+        <main>
+            {% block content %}
+                <!-- Page content goes here -->
+            {% endblock %}
+        </main>
+        
+        {% include "partials/footer.njk" %}
+    </div>
+    
+    <script src="public/js/main.js"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

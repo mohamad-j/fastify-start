@@ -1,0 +1,13 @@
+<nav class="main-nav">
+    <ul>
+        <li class="{{ 'active' if request.url === '/' else '' }}">
+            <a href="/">Home</a>
+        </li>
+        <li class="{{ 'active' if request.url === '/about' else '' }}">
+            <a href="/about">About</a>
+        </li>
+        <li class="{{ 'active' if request.url === '/contact' else '' }}">
+            <a href="/contact">Contact</a>
+        </li>
+    </ul>
+</nav>

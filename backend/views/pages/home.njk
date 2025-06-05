@@ -1,0 +1,39 @@
+{% extends "layouts/base.njk" %}
+
+{% block head %}
+    <meta name="description" content="Welcome to our awesome Fastify application!">
+{% endblock %}
+
+{% block content %}
+    <section class="hero">
+        <h1>{{ pageTitle | default('Welcome to Our App') }}</h1>
+        <p class="lead">{{ leadText | default('This is a Fastify application with Nunjucks templates.') }}</p>
+        
+        {% if user %}
+            <div class="welcome-message">
+                <p>Welcome back, {{ user.name }}!</p>
+            </div>
+        {% else %}
+            <div class="cta-buttons">
+                <a href="/login" class="btn btn-primary">Login</a>
+                <a href="/register" class="btn btn-secondary">Register</a>
+            </div>
+        {% endif %}
+    </section>
+    
+    <section class="features">
+        <h2>Key Features</h2>
+        <div class="feature-list">
+            {% for feature in features %}
+                <div class="feature-item">
+                    <h3>{{ feature.title }}</h3>
+                    <p>{{ feature.description }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}
+
+{% block scripts %}
+{{ renderScripts(view_public_path) | safe}}
+{% endblock %}
