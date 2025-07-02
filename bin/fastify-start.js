@@ -23,11 +23,13 @@ import { generateCommand } from './commands/generate.js';
 import { serveCommand } from './commands/serve.js';
 import { buildCommand } from './commands/build.js';
 import { listCommand } from './commands/list.js';
+import { addDocsCommand } from './commands/docs.js';
 
 // Register commands
 program.addCommand(generateCommand);
 program.addCommand(serveCommand);
 program.addCommand(buildCommand);
 program.addCommand(listCommand);
+addDocsCommand(program);
 
 program.parse();

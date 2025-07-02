@@ -120,6 +120,9 @@ fa serve --frontend --app Dashboard   # Specific frontend app
 fa build --app Dashboard              # Build specific app
 fa build --production                 # Production build
 fa list                              # View all components
+fa docs list                         # List API endpoints
+fa docs open                         # Open docs in browser
+fa docs generate                     # Generate documentation files
 ```
 
 ### Backend Development
@@ -298,17 +301,48 @@ fa serve --frontend --app UserDashboard
 
 ## 📖 API Documentation
 
+### Interactive Documentation
+The project includes a built-in API documentation system accessible at `/docs` when the backend is running:
+
+```bash
+fa serve --backend
+# Open http://localhost:3000/docs
+```
+
+### CLI Documentation Commands
+```bash
+fa docs list                         # List all available endpoints
+fa docs open                         # Open docs in browser  
+fa docs generate                     # Generate HTML/JSON docs
+fa docs test                         # Test endpoint availability
+```
+
+### Documentation Features
+- **Interactive HTML Interface**: Clean, responsive documentation UI
+- **Authentication Details**: Shows which endpoints require auth
+- **Request/Response Examples**: Sample data for all endpoints
+- **JSON Export**: Programmatic access to API documentation
+- **CLI Integration**: Manage docs directly from command line
+
 ### Health Check
 ```
 GET /health
-Response: { "status": "ok" }
+Response: { "status": "ok", "timestamp": "...", "uptime": 123.45 }
 ```
 
-### Plugin Status
+### API Information
 ```
-GET /plugin/{plugin-name}/status
-Response: { "plugin": "name", "status": "active", "timestamp": "..." }
+GET /info  
+Response: { "name": "Fastify Starter API", "version": "1.0.0", "documentation": "/docs" }
 ```
+
+### Products API
+All product endpoints require authentication (`Authorization: Bearer token`):
+- `GET /products` - List products with pagination
+- `GET /products/:id` - Get specific product
+- `POST /products` - Create new product
+- `PUT /products/:id` - Update product
+- `DELETE /products/:id` - Delete product
 
 ## 🤝 Contributing
 
@@ -354,7 +388,7 @@ fa serve --backend --port 4000
 - [ ] Add testing scaffolding
 - [ ] Add Docker compose setup
 - [ ] Add deployment scripts
-- [ ] Add API documentation generation
+- [x] ✅ Add API documentation generation
 
 ---
 

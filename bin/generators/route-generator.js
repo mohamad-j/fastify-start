@@ -54,7 +54,33 @@ export class RouteGenerator {
     return `${imports}
 export default async function (app) {
   // GET /${name}
-  app.get('/${name}'${this.buildRouteOptions(hasAuth, false, '')}, async (request, reply) => {
+  app.get('/${name}', {
+    ${hasAuth ? 'preHandler: authGuard,' : ''}
+    schema: {
+      description: 'Get ${name} data',
+      tags: ['${capitalizedName}'],
+      ${hasAuth ? 'security: [{ bearerAuth: [] }],' : ''}
+      response: {
+        200: {
+          description: '${capitalizedName} data retrieved successfully',
+          type: 'object',
+          properties: {
+            success: { type: 'boolean', example: true },
+            message: { type: 'string', example: 'Welcome to ${capitalizedName} endpoint' },
+            data: { type: 'array', items: { type: 'object' } }
+          }
+        }${hasAuth ? `,
+        401: {
+          description: 'Authentication required',
+          type: 'object',
+          properties: {
+            success: { type: 'boolean', example: false },
+            message: { type: 'string', example: 'Authentication required' }
+          }
+        }` : ''}
+      }
+    }
+  }, async (request, reply) => {
     try {
       // TODO: Implement ${name} retrieval logic
       return {
@@ -72,7 +98,40 @@ export default async function (app) {
   });
 
   // POST /${name}
-  app.post('/${name}'${this.buildRouteOptions(hasAuth, hasValidation, `create${capitalizedName}Schema`)}, async (request, reply) => {
+  app.post('/${name}', {
+    ${hasAuth ? 'preHandler: authGuard,' : ''}
+    schema: {
+      description: 'Create new ${name}',
+      tags: ['${capitalizedName}'],
+      ${hasAuth ? 'security: [{ bearerAuth: [] }],' : ''}
+      ${hasValidation ? `body: create${capitalizedName}Schema.body,` : `body: {
+        type: 'object',
+        properties: {
+          name: { type: 'string', description: '${capitalizedName} name' }
+        },
+        required: ['name']
+      },`}
+      response: {
+        200: {
+          description: '${capitalizedName} created successfully',
+          type: 'object',
+          properties: {
+            success: { type: 'boolean', example: true },
+            message: { type: 'string', example: '${capitalizedName} created successfully' },
+            data: { type: 'object' }
+          }
+        }${hasAuth ? `,
+        401: {
+          description: 'Authentication required',
+          type: 'object',
+          properties: {
+            success: { type: 'boolean', example: false },
+            message: { type: 'string', example: 'Authentication required' }
+          }
+        }` : ''}
+      }
+    }
+  }, async (request, reply) => {
     try {
       const data = request.body;
       

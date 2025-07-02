@@ -1,66 +1,10 @@
 import { authGuard } from '../guards/auth.guard.js';
 
-// Validation schemas
-const getProductsSchema = {
-  params: {
-    type: 'object',
-    required: ['id'],
-    properties: {
-      id: { type: 'string', pattern: '^[0-9]+$' }
-    },
-    additionalProperties: false
-  }
-};
-
-const createProductsSchema = {
-  body: {
-    type: 'object',
-    required: ['name'],
-    properties: {
-      name: { type: 'string', minLength: 1, maxLength: 100 },
-      description: { type: 'string', maxLength: 500 },
-      // TODO: Add more properties as needed
-    },
-    additionalProperties: false
-  }
-};
-
-const updateProductsSchema = {
-  params: {
-    type: 'object',
-    required: ['id'],
-    properties: {
-      id: { type: 'string', pattern: '^[0-9]+$' }
-    },
-    additionalProperties: false
-  },
-  body: {
-    type: 'object',
-    properties: {
-      name: { type: 'string', minLength: 1, maxLength: 100 },
-      description: { type: 'string', maxLength: 500 },
-      // TODO: Add more properties as needed
-    },
-    additionalProperties: false
-  }
-};
-
-const deleteProductsSchema = {
-  params: {
-    type: 'object',
-    required: ['id'],
-    properties: {
-      id: { type: 'string', pattern: '^[0-9]+$' }
-    },
-    additionalProperties: false
-  }
-};
-
 export default async function (app) {
   // TODO: Inject ProductsService from DI container
   // const productsService = app.di.resolve('ProductsService');
 
-  // GET /products - List all productss
+  // GET /products - List all products  
   app.get('/products', { preHandler: authGuard }, async (request, reply) => {
     try {
       const { page = 1, limit = 10, search } = request.query;
@@ -74,36 +18,9 @@ export default async function (app) {
         pagination: {
           page: parseInt(page),
           limit: parseInt(limit),
-          total: 0
+          total: 0,
+          totalPages: 0
         }
-      };
-    } catch (error) {
-      request.log.error(error);
-      reply.status(500).send({
-        success: false,
-        message: 'Failed to retrieve productss'
-      });
-    }
-  });
-
-  // GET /products/:id - Get single products
-  app.get('/products/:id', { preHandler: authGuard }, async (request, reply) => {
-    try {
-      const { id } = request.params;
-      
-      // TODO: Implement products retrieval by ID
-      // const products = await productsService.findById(id);
-      
-      // if (!products) {
-      //   return reply.status(404).send({
-      //     success: false,
-      //     message: 'Products not found'
-      //   });
-      // }
-      
-      return {
-        success: true,
-        data: { id, placeholder: true }
       };
     } catch (error) {
       request.log.error(error);
@@ -114,68 +31,89 @@ export default async function (app) {
     }
   });
 
-  // POST /products - Create new products
+  // GET /products/:id - Get single product
+  app.get('/products/:id', { preHandler: authGuard }, async (request, reply) => {
+    try {
+      const { id } = request.params;
+      
+      // TODO: Implement product retrieval by ID
+      // const product = await productsService.findById(id);
+      
+      return {
+        success: true,
+        data: { id: parseInt(id), name: 'Sample Product', placeholder: true }
+      };
+    } catch (error) {
+      request.log.error(error);
+      reply.status(500).send({
+        success: false,
+        message: 'Failed to retrieve product'
+      });
+    }
+  });
+
+  // POST /products - Create new product
   app.post('/products', { preHandler: authGuard }, async (request, reply) => {
     try {
       const data = request.body;
       
-      // TODO: Implement products creation
-      // const newProducts = await productsService.create(data);
+      // TODO: Implement product creation
+      // const newProduct = await productsService.create(data);
       
       reply.status(201).send({
         success: true,
-        message: 'Products created successfully',
+        message: 'Product created successfully',
         data: { id: 1, ...data }
       });
     } catch (error) {
       request.log.error(error);
       reply.status(500).send({
         success: false,
-        message: 'Failed to create products'
+        message: 'Failed to create product'
       });
     }
   });
 
-  // PUT /products/:id - Update products
+  // PUT /products/:id - Update product
   app.put('/products/:id', { preHandler: authGuard }, async (request, reply) => {
     try {
       const { id } = request.params;
       const data = request.body;
       
-      // TODO: Implement products update
-      // const updatedProducts = await productsService.update(id, data);
+      // TODO: Implement product update
+      // const updatedProduct = await productsService.update(id, data);
       
       return {
         success: true,
-        message: 'Products updated successfully',
-        data: { id, ...data }
+        message: 'Product updated successfully',
+        data: { id: parseInt(id), ...data }
       };
     } catch (error) {
       request.log.error(error);
       reply.status(500).send({
         success: false,
-        message: 'Failed to update products'
+        message: 'Failed to update product'
       });
     }
   });
 
-  // DELETE /products/:id - Delete products
+  // DELETE /products/:id - Delete product  
   app.delete('/products/:id', { preHandler: authGuard }, async (request, reply) => {
     try {
       const { id } = request.params;
       
-      // TODO: Implement products deletion
+      // TODO: Implement product deletion
       // await productsService.delete(id);
       
       return {
         success: true,
-        message: 'Products deleted successfully'
+        message: 'Product deleted successfully'
       };
     } catch (error) {
       request.log.error(error);
       reply.status(500).send({
         success: false,
-        message: 'Failed to delete products'
+        message: 'Failed to delete product'
       });
     }
   });
