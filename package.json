@@ -2,6 +2,9 @@
   "type": "module",
   "name": "fastify-start-frontend",
   "private": true,
+  "bin": {
+    "fa": "./bin/fastify-start.js"
+  },
   "scripts": {
     "dev:frontend": "vite dev",
     "build:frontend": "vite build",
@@ -9,12 +12,18 @@
     "start:backend": "cd backend && npm start",
     "dev": "npm run dev:backend",
     "build": "npm run build:frontend",
-    "install:all": "npm install && cd backend && npm install"
+    "install:all": "npm install && cd backend && npm install",
+    "cli:link": "npm link",
+    "cli:unlink": "npm unlink -g"
+  },
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "commander": "^12.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.4",
+    "sass": "^1.89.1",
     "vite": "^6.3.5",
-    "vue": "^3.5.16",
-    "sass": "^1.89.1"
+    "vue": "^3.5.16"
   }
 }

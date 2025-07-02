@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import { fileURLToPath, URL } from 'url';
 import vue from '@vitejs/plugin-vue';
+import { existsSync } from 'fs';
 
 // Extract custom arguments from process.argv
 const hasVueJsArg = process.env.npm_config_vue;
@@ -13,6 +14,10 @@ export default defineConfig( ( { command, mode } )=>{
     app = 'main';
   }
 
+  // Check if the app has Vue files
+  const appPath = `frontend/apps/${app}`;
+  const hasVueFiles = existsSync(`${appPath}/App.vue`) || existsSync(`${appPath}/app.vue`);
+
   let config = {
     plugins: [],
     root:`frontend/apps/${app}`,
@@ -20,7 +25,7 @@ export default defineConfig( ( { command, mode } )=>{
         outDir: `${process.cwd()}/backend/public/views/${app}`,
         minify: true,
         rollupOptions: {
-            input: `frontend/apps/${app}/index.js`
+            input: `frontend/apps/${app}/index.html`
         },
         emptyOutDir: true,
         target: 'es2015'
@@ -30,11 +35,12 @@ export default defineConfig( ( { command, mode } )=>{
         '@': fileURLToPath(new URL('./frontend', import.meta.url)),
         '~': fileURLToPath(new URL('./node_modules', import.meta.url))
       },
-      extensions: ['.js', '.ts', '.jsx', '.tsx', '.json']
+      extensions: ['.js', '.ts', '.jsx', '.tsx', '.json', '.vue']
     }
   }
 
-  if( hasVueJsArg ) {
+  // Auto-detect Vue.js apps or use explicit flag
+  if( hasVueJsArg || hasVueFiles ) {
     config.plugins.push( vue() );
   }
   
