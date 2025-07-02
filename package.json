@@ -2,6 +2,7 @@
   "type": "module",
   "name": "fastify-start-frontend",
   "private": true,
+
   "bin": {
     "fa": "./bin/fastify-start.js"
   },
@@ -12,6 +13,7 @@
     "start:backend": "cd backend && npm start",
     "dev": "npm run dev:backend",
     "build": "npm run build:frontend",
+
     "install:all": "npm install && cd backend && npm install",
     "cli:link": "npm link",
     "cli:unlink": "npm unlink -g"
