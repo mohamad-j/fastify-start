@@ -1,0 +1,23 @@
+{
+  "type": "module",
+  "name": "fastify-start",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "build:frontend": "npm run build --workspace=frontend",
+    "dev:backend": "npm run dev --workspace=backend",
+    "start:backend": "npm run start --workspace=backend",
+    "dev": "npm run dev:backend",
+    "build": "npm run build:frontend",
+    "install:all": "npm install",
+    "clean": "npm run clean --workspaces --if-present"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
